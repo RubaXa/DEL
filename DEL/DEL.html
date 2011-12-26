@@ -74,16 +74,11 @@
 		}
 
 
-		/**/
-		DEL.on('click', '.my-elm', clickFn);
-
+		/**
 		DEL.on({
 			  "[mouseup mousedown] .my-elm,.elm": function (evt){ $(evt.currentTarget).toggleClass('press') }
-			, "[hover] .my-elm,.elm,.inner-elm": function (evt){
-				$(evt.currentTarget).toggleClass('hover');
-			}
-			, ".other": {
-				"click": function (evt){ $(evt.currentTarget).toggleClass('hover') }
+			, "[hover] .my-elm,.elm,.inner-elm": function (evt){ $(evt.currentTarget).toggleClass('hover'); }
+			, ".other": { "click": function (evt){ $(evt.currentTarget).toggleClass('hover'); }
 			}
 			, "[click] a": function (evt){
 				$(evt.currentTarget).animate({ left: "+=50px" });
@@ -102,6 +97,8 @@
 				evt.preventDefault();
 			}
 		});
+		/**/
+
 
 //		DOMListen.off('click');
 //		DOMListen.off('.my-elm');
@@ -109,7 +106,33 @@
 //		DOMListen.off('click');
 		/**/
 
-//		$('body').on('mouseover mouseout', '.my-elm,.inner-elm', function (evt){ $(evt.currentTarget).toggleClass('hover'); });
+		DEL.on('click', '.my-elm', clickFn);
+
+		/**/
+		$('body')
+			.on('click', '.my-elm', clickFn)
+			.on("mouseup mousedown", ".my-elm,.elm", function (evt){ $(evt.currentTarget).toggleClass('press') })
+			.on("hover", ".my-elm,.elm,.inner-elm", function (evt){ $(evt.currentTarget).toggleClass('hover'); })
+			.on("click", ".other", function (evt){ $(evt.currentTarget).toggleClass('hover'); })
+			.on("click", "a", function (evt){
+				$(evt.currentTarget).animate({ left: "+=50px" });
+				evt.preventDefault();
+			})
+			.on("input", "input.js-inp-text", function (evt){
+				var $Inp = $(evt.currentTarget);
+				$Inp.parent().find('.js-num').html( $Inp.val().length );
+			})
+			.on("submit", "form", function (evt){
+				$(evt.currentTarget)
+					.css({ backgroundColor: '#ccc' })
+					.delay(200)
+					.queue(function (){ $(this).css({ backgroundColor: '' }).dequeue(); })
+				;
+				evt.preventDefault();
+			})
+		;
+		/**/
+
 		jQuery;
 	</script>
 

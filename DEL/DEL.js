@@ -434,7 +434,7 @@
 			});
 
 			if( !data.fn ){
-				data.fn = _proxy(noop, _onEvent, id, elm);
+				data.fn = function (evt){ _onEvent(id, elm, evt); };
 			}
 
 			_updListeners(elm, data);
@@ -492,10 +492,13 @@
 	if( $ ){
 		_event.fix      = function (evt){ return evt; };
 		_event.props    = $.event.props;
+		_event.special  = {};
+
 		$.fn.listen     = function (events, sel, fn){
 			listen(this, events, sel, fn);
 			return  this;
 		};
+
 		$.fn.unlisten   = function (events, sel, fn){
 			unlisten(this, events, sel, fn);
 			return  this;
