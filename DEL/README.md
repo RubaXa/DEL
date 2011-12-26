@@ -9,11 +9,6 @@ DEL —  DOM Event listener
 * small size ~2.4KB (Minified and Gzipped)
 
 
-## Latest version
-* [min](./DEL.min.js)
-* [dev](./DEL.js)
-
-
 ## Examples
 ```js
 DEL.on(parent/*:(Node|Array.<Node>|NodeList)*/, eventType/*:String*/, selectors/*:String*/, fn/*:Function*/);
