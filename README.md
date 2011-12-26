@@ -1,3 +1,3 @@
 # @plugins
 
-* [DEL](plugins/DEL/) — DOM Event listener
+* [DEL](plugins/tree/master/DEL) — DOM Event listener
