@@ -124,8 +124,8 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 ```js
 // Create custom group
 DEL.event.add(
-	  'infocus'           /*:String — event name */
-	, 'focusin focusout'  /*:String — space-separated event types*/
+	  'inp'                /*:String — event name */
+	, 'focus blur change'  /*:String — space-separated event types*/
 );
 
 // Create custom event
