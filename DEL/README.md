@@ -5,8 +5,9 @@ A listener to events for all elements that match the selector, now or in the fut
 
 ## Features
 * easy interface: `on/off and pause/unpause`
-* small size 2.27KB (minified + gzipped)
+* small size 2.3KB (minified + gzipped)
 * not need jQuery
+
 
 
 ### Description
@@ -83,8 +84,14 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 ```
 
 
+
 ### Event object (thanks jQuery :])
 @see http://api.jquery.com/category/events/event-object/
+
+(!) add custom property
+```js
+DEL.event.props.push("dataTransfer");
+```
 
 
 
@@ -114,3 +121,24 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 (!) — all "normal" browsers and IE9+, if before DEL.js include jQuery 1.4.3+, then IE6+ also gets support
 
 (!!) — IE9+ and others
+
+
+
+### Specail events
+```js
+// Create custom group
+DEL.event.add(
+	  'infocus'           /*:String — event name */
+	, 'focusin focusout'  /*:String — space-separated event types*/
+);
+
+// Create custom event
+DEL.event.add(
+	  'leftclick' /*:String — event name */
+	, 'mouseup'   /*:String — single event type  */
+	, function (event/*:Event*/, node/*:HTMLElement*/){
+		/* this check function */
+		return  (event.which == 1);
+	}
+);
+```

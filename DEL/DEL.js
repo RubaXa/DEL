@@ -60,7 +60,7 @@
 				, mouseenter:   'mouseover'
 				, mouseleave:   'mouseout'
 			},
-			sh: {
+			group: {
 				  hover: 'mouseenter mouseleave'
 			    , mouseclick: 'mouseup mousedown'
 			},
@@ -69,8 +69,16 @@
 				, mouseleave:   withinElement
 			},
 			split: function (type){
-				type    = (' '+type+' ').replace(/\s([^\s]+)/, function (a, name){ return ' '+(_event.sh[name] || name) });
+				type    = (' '+type+' ').replace(/\s([^\s]+)/, function (a, name){ return ' '+(_event.group[name] || name) });
 				return  _clean(type, 'trim').split(_rspace);
+			},
+			add: function (name, type, fn){
+				if( fn ){
+					_event.map[name] = type;
+					_event.special[name] = fn;
+				} else {
+					_event.group[name] = type;
+				}
 			}
 		}
 	;
