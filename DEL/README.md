@@ -120,12 +120,12 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 
 
 
-### Specail events
+### Special events
 ```js
 // Create custom group
 DEL.event.add(
 	  'inp'                /*:String — event name */
-	, 'focus blur change'  /*:String — space-separated event types*/
+	, 'focus blur change'  /*:String — space-separated event types */
 );
 
 // Create custom event
