@@ -1,26 +1,57 @@
-# DEL
+# DEL — DOM Event listener
 
-DEL —  DOM Event listener
+A listener to events for all elements that match the selector, now or in the future.
 
 
 ## Features
-* easy interface
+* easy interface: `on/off and pause/unpause`
+* small size 2.27KB (minified + gzipped)
 * not need jQuery
-* small size ~2.4KB (Minified and Gzipped)
 
 
-## Examples
+### Description
 ```js
-DEL.on(parent/*:(Node|Array.<Node>|NodeList)*/, eventType/*:String*/, selectors/*:String*/, fn/*:Function*/);
+// Add listener
+DEL.on(
+	  root/*:(Node|Array.<Node>|NodeList|jQuery) — root element*/
+	, eventType/*:String — A string containing one or more space-separated event types, such as "click" or "keydown"*/
+	, selectors/*:String — A selector to filter the elements that trigger the event.*/
+	, fn/*:Function(eventObject) — A function to execute at the time the event is triggered.*/
+);
+
+// root === document.body
 DEL.on(eventType/*:String*/, selectors/*:String*/, fn/*:Function*/);
-DEL.on(parent, {
-	"[eventType] selectors": fn/*:Function*/,
+
+DEL.on(root, {
+	"[eventType] selectors": fn,
 	"selectors": {
-		"eventType": fn/*:Function*/
+		"eventType": fn,
+		"eventType": fn
 	}
 });
 
+// Remove listener
+DEL.off(root, eventType, selectors, fn);
+DEL.off(root, eventType, selectors);
+DEL.off(root, eventTypeOrSelectors);
+DEL.off(eventTypeOrSelectors);
 
+// Pause/Unpause listener
+// @see DEL.off
+DEL.pause(root, eventType, selectors, fn);
+DEL.unpause(root, eventType, selectors, fn);
+
+// or if you use jQuery
+
+$(".root").listen({   });
+$(".root").unlisten({   });
+$(".root").pauseListen({   });
+$(".root").unpauseListen({   });
+```
+
+
+### Examples
+```js
 DEL.on("click", "a", function (evt/*Event*/){ /* evt.currentTarget — this link */ });
 
 DEL.on({
@@ -39,41 +70,36 @@ DEL.off(".sel-1");
 DEL.off("blur", "input");
 DEL.off("focus", "input", fn);
 
-var MyElm = document.getElementById('MyElm');
-DEL.on(MyElm, "click", ".jpg,.png", function (evt){  });
-DEL.on(MyElm, {  });
 
-DEL.off(MyElm, "click");
+var root = document.getElementById('MyElm');
+DEL.on(root, "click", ".jpg,.png", function (evt){  });
+DEL.on(root, {  });
 
-var parent = document.querySelectorAll(".parent");
-DEL.on(parent, "hover", ".jpg,.png", function (evt){  });
+DEL.off(root, "click");
 
-// or if you use jQuery
 
-$(".parent").listen({   });
-
-$(".parent").unlisten({   });
-
+var rootList = document.querySelectorAll(".root");
+DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 ```
 
 
-## Event object (thanks jQuery :])
+### Event object (thanks jQuery :])
 @see http://api.jquery.com/category/events/event-object/
 
 
 
-## Support events
+### Support events
 * click
 * dblclick
 * mousedown
 * mouseup
+* mouseclick: `mousedown mouseup`
 * mousemove
 * mouseover
 * mouseout
 * mouseenter
 * mouseleave
-* hover
-* select
+* hover: `mouseenter mouseleave`
 * keydown
 * keypress
 * keyup
@@ -83,5 +109,7 @@ $(".parent").unlisten({   });
 * focusout (!)
 * change (!)
 * submit (!)
+* input (!!)
 
-(!) — all "normal" browsers and IE9+, if before DEL.js include jQuery 1.5+, then IE6+ also gets support
+(!) — all "normal" browsers and IE9+, if before DEL.js include jQuery 1.4.3+, then IE6+ also gets support
+(!!) — IE9+ and others
