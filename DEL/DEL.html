@@ -97,6 +97,17 @@
 				evt.preventDefault();
 			}
 		});
+
+		DEL.event.add('rightclick', 'mousedown', function (evt){ return (evt.which == 3); });
+		DEL.on('rightclick', '.other', function (evt){
+			$(evt.currentTarget)
+				.animate({ left: "-=10px" }, 50)
+				.animate({ left: "+=20px" }, 50)
+				.animate({ left: "-=20px" }, 50)
+				.animate({ left: "+=10px" }, 50)
+			;
+			evt.preventDefault();
+		});
 		/**/
 
 
