@@ -87,11 +87,7 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 
 ### Event object (thanks jQuery :])
 @see http://api.jquery.com/category/events/event-object/
-
-(!) add custom property
-```js
-DEL.event.props.push("dataTransfer");
-```
+(!) add custom property `DEL.event.props.push("dataTransfer");`
 
 
 
