@@ -4,7 +4,7 @@
 	<title>DOMListen</title>
 
 	<script src="http://code.jquery.com/jquery-1.7.1.min.js" type="text/javascript"></script>
-	<script src="DEL.js" type="text/javascript"></script>
+	<script src="DEL.min.js" type="text/javascript"></script>
 
 	<style type="text/css">
 		div { margin: 5px; }
@@ -74,7 +74,7 @@
 		}
 
 
-		/**
+		/**/
 		DEL.on({
 			  "[mouseup mousedown] .my-elm,.elm": function (evt){ $(evt.currentTarget).toggleClass('press') }
 			, "[hover] .my-elm,.elm,.inner-elm": function (evt){ $(evt.currentTarget).toggleClass('hover'); }
@@ -108,7 +108,7 @@
 
 		DEL.on('click', '.my-elm', clickFn);
 
-		/**/
+		/**
 		$('body')
 			.on('click', '.my-elm', clickFn)
 			.on("mouseup mousedown", ".my-elm,.elm", function (evt){ $(evt.currentTarget).toggleClass('press') })
