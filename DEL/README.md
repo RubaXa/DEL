@@ -112,4 +112,5 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 * input (!!)
 
 (!) — all "normal" browsers and IE9+, if before DEL.js include jQuery 1.4.3+, then IE6+ also gets support
+
 (!!) — IE9+ and others
