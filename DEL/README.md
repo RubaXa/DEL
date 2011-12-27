@@ -130,11 +130,11 @@ DEL.event.add(
 
 // Create custom event
 DEL.event.add(
-	  'leftclick' /*:String — event name */
-	, 'mouseup'   /*:String — single event type  */
+	  'rightclick' /*:String — event name */
+	, 'mousedown'  /*:String — single event type */
 	, function (event/*:Event*/, node/*:HTMLElement*/){
 		/* this check function */
-		return  (event.which == 1);
+		return  (event.which == 3);
 	}
 );
 ```
