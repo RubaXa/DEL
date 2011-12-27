@@ -55,21 +55,22 @@
 			props: "altKey attrChange attrName bubbles button cancelable charCode clientX clientY ctrlKey currentTarget data detail eventPhase fromElement handler keyCode layerX layerY metaKey newValue offsetX offsetY pageX pageY prevValue relatedNode relatedTarget screenX screenY shiftKey srcElement target toElement view wheelDelta which".split(" "),
 			fix: function (event){ return new MyEvent(event); },
 			map: {
-				  blur: 'focusout'
-			    , focus: 'focusin'
-				, mouseenter: 'mouseover'
-				, mouseleave: 'mouseout'
+				  blur:         'focusout'
+			    , focus:        'focusin'
+				, mouseenter:   'mouseover'
+				, mouseleave:   'mouseout'
 			},
-			short: {
-				hover: 'mouseenter mouseleave'
+			sh: {
+				  hover: 'mouseenter mouseleave'
+			    , mouseclick: 'mouseup mousedown'
 			},
 			special: {
-				  mouseenter: withinElement
-				, mouseleave: withinElement
+				  mouseenter:   withinElement
+				, mouseleave:   withinElement
 			},
 			split: function (type){
-				type    = (' '+type+' ').replace(/\s([^\s]+)/, function (a, name){ return ' '+(_event.short[name] || name) });
-				return  _clear(type, 'trim').split(_rspace);
+				type    = (' '+type+' ').replace(/\s([^\s]+)/, function (a, name){ return ' '+(_event.sh[name] || name) });
+				return  _clean(type, 'trim').split(_rspace);
 			}
 		}
 	;
@@ -144,7 +145,7 @@
 	/**
 	 * Is function
 	 *
-	 * @param fn
+	 * @param   fn
 	 * @return  {Boolean}
 	 */
 	function isFn(fn){
@@ -153,13 +154,24 @@
 
 
 	/**
-	 * Remove all spaces
+	 * Is boolean
 	 *
-	 * @param {String} str
-	 * @patam {String} [mode]
+	 * @param   val
+	 * @return  {Boolean}
+	 */
+	function isBool(val){
+		return  _toStr.call(val) == '[object Boolean]';
+	}
+
+
+	/**
+	 * Remove all spaces or trim
+	 *
+	 * @param   {String}    str
+	 * @patam   {String}    [mode]
 	 * @return  {String}
 	 */
-	function _clear(str, mode){
+	function _clean(str, mode){
 		if( mode === 'trim' ){
 			return  str.replace(_rtrim, '');
 		}
@@ -308,7 +320,7 @@
 			if( target.nodeType == 1 ){
 				for( i = 0, n = items.length; i < n; i++ ){
 					item    = items[i];
-					if( _equal(target, item) ){
+					if( item.on && _equal(target, item) ){
 						special = _event.special[item.type];
 						if( special === undef || special(evt, target) ){
 							evt.type = item.type;
@@ -343,8 +355,8 @@
 	 * @param   {Function}  fn
 	 */
 	function _pushItem(data, sel, type, fn){
-		sel = _clear(sel);
-		var item = { type: type, fn: fn, sel: sel };
+		sel = _clean(sel);
+		var item = { type: type, fn: fn, sel: sel, on: true };
 
 		if( sel.charAt(0) == '#' ){
 			item.id = sel.substr(1);
@@ -445,7 +457,16 @@
 	/**
 	 * Unlisten
 	 */
-	function unlisten(elms, type, sel, fn){
+	function unlisten(elms, type, sel, fn, pause){
+		if( isBool(elms) ){
+			var _fn = pause;
+			pause   = elms;
+			elms    = type;
+			type    = sel;
+			sel     = fn;
+			fn      = _fn;
+		}
+
 		if( typeof elms == 'string' ){
 			fn      = sel;
 			sel     = type;
@@ -453,28 +474,33 @@
 			elms    = document.body;
 		}
 
-		if( isFn(sel) || sel === undef ){
-			unlisten(elms, type, '', sel);
-			unlisten(elms, '', type, sel);
+		if( isFn(sel) || isBool(fn) || sel === undef ){
+			unlisten(elms, type, '', sel, pause);
+			unlisten(elms, '', type, sel, pause);
 			return;
 		}
 
+		//console.log(elms, [type, sel, fn, pause]);
+
 		_each(elms, function (elm){
 			if( elm.uniqId && _data[elm.uniqId] ){
-				var data    = _data[elm.uniqId];
+				var data = _data[elm.uniqId], i, item, remove;
 
 				_each(data, function (items, cat){
 					if( cat !== 'fn' ){
-						var a = items.length;
-
-						for( var i = items.length, item, remove; i--; ){
+						for( i = items.length; i--; ){
 							item    = items[i];
 							_each(_event.split(type), function (type){
 								remove  = (!type || type == item.type)
 										&& (!fn || fn === item.fn)
 										&& (!sel || sel.toLowerCase() == item.sel.toLowerCase());
 								if( remove ){
-									items   = items.slice(0, i).concat(items.slice(i+1));
+									if( pause !== undef ){
+										item.on = !pause;
+									} else {
+										console.log(remove);
+										items   = items.slice(0, i).concat(items.slice(i+1));
+									}
 								}
 							});
 						}
@@ -503,17 +529,25 @@
 			unlisten(this, events, sel, fn);
 			return  this;
 		};
+
+		$.fn.pauseListen   = function (events, sel, fn){
+			unlisten(this, events, sel, fn, true);
+			return  this;
+		};
+
+		$.fn.unpauseListen   = function (events, sel, fn){
+			unlisten(this, events, sel, fn, false);
+			return  this;
+		};
 	}
-
-
-	_eventListener(document, true, 'propertychange', function (evt){
-	});
 
 
 	// GLOBALIZATION
 	window.DEL = {
 		  on:       listen
 		, off:      unlisten
+		, pause:    _proxy(noop, unlisten, true)
+		, unpause:  _proxy(noop, unlisten, false)
 		, event:    _event
 	};
 })(this, this.jQuery);
