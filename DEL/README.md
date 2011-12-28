@@ -5,7 +5,8 @@ A listener to events for all elements that match the selector, now or in the fut
 
 ## Features
 * easy interface: `on/off and pause/unpause`
-* small size 2.3KB (minified + gzipped)
+* support IE6+, FF, Chrome, Opera
+* small size 2.4KB (minified + gzipped)
 * not need jQuery
 
 
@@ -102,6 +103,7 @@ DEL.on(rootList, "hover", ".jpg,.png", function (evt){  });
 * mouseout
 * mouseenter
 * mouseleave
+* mousewheel: `event.delta`
 * hover: `mouseenter mouseleave`
 * keydown
 * keypress

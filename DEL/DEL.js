@@ -40,8 +40,9 @@
 		, _rspace   = /\s+/g
 		, _revents  = /^\[([^\]]+)\]\s*/i
 
-		, noop = function (){}
-		, document = window.document
+		, noop      = function (){}
+		, document  = window.document
+		, onwheel   = ('onmousewheel' in document) ? 'mousewheel' : 'DOMMouseScroll'
 
 		, EventListener = 'EventListener'
 		, addEventListener = 'add' + EventListener
@@ -59,6 +60,7 @@
 			    , focus:        'focusin'
 				, mouseenter:   'mouseover'
 				, mouseleave:   'mouseout'
+			    , mousewheel:   onwheel
 			},
 			group: {
 				  hover: 'mouseenter mouseleave'
@@ -322,7 +324,13 @@
 			, item
 			, items = data[type]
 			, special
+			, oEvt = evt.originalEvent
 		;
+
+		if( type === onwheel && !('delta' in evt) ){
+			if( oEvt.wheelDelta ) evt.delta = oEvt.wheelDelta/120;
+			if( oEvt.detail ) evt.delta = -oEvt.detail/3;
+		}
 
 		if( items && items.length ) do {
 			if( target.nodeType == 1 ){
