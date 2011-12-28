@@ -66,6 +66,12 @@
 		</form>
 
 		<a class="abs" href="#test">link</a>
+
+		<div id="root" style="position: absolute; left: 250px; top: 50px;">
+			<button class="js-click">click</button>
+			<button class="js-hover">hover</button>
+			<input type="text" />
+		</div>
 	</div>
 
 	<script type="text/javascript">
@@ -97,6 +103,22 @@
 				evt.preventDefault();
 			}
 		});
+
+		var root = document.getElementById('root');
+		DEL.on(root, 'click', '.js-click', function (){ alert('Yahoo!'); });
+		DEL.on($('#root'), { '[hover] .js-hover': function (evt){
+			$(evt.currentTarget).html(evt.type);
+		}});
+		DEL.on(root, {
+			'input': {
+			    'click': function (){ alert('fail'); },
+				'keyup': function (evt){ $(evt.currentTarget).css({ border: '' }); },
+				'keydown': function (evt){ $(evt.currentTarget).css({ borderColor: 'red' }); }
+			}
+		});
+		DEL.off(root, 'click', 'input');
+		DEL.pause(root, 'keydown');
+		DEL.unpause(root, 'keydown', 'input');
 
 		DEL.on('mousewheel', '.other', function (evt){
 			$(evt.currentTarget).css({ left: '+='+(evt.delta * 2) });

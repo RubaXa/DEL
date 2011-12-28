@@ -496,8 +496,6 @@
 			return;
 		}
 
-		//console.log(elms, [type, sel, fn, pause]);
-
 		_each(elms, function (elm){
 			if( elm.uniqId && _data[elm.uniqId] ){
 				var data = _data[elm.uniqId], i, item, remove;
@@ -514,7 +512,6 @@
 									if( pause !== undef ){
 										item.on = !pause;
 									} else {
-										console.log(remove);
 										items   = items.slice(0, i).concat(items.slice(i+1));
 									}
 								}
