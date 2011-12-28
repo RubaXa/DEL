@@ -33,7 +33,7 @@
 		.other { border: 2px dotted #c00; }
 
 		.press { border: 10px solid blue; }
-		.hover { -moz-border-radius: 25px; -webkit-border-radius: 25px; }
+		.hover { -moz-border-radius: 25px; -webkit-border-radius: 25px; filter: alpha(opacity=80); }
 		.click { border: 10px solid #f60; }
 
 		.abs { position: absolute; }
@@ -108,6 +108,8 @@
 			;
 			evt.preventDefault();
 		});
+		// IE < 8
+		DEL.on('contextmenu', '.other', function (evt){ return false; });
 		/**/
 
 
