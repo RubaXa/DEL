@@ -1,4 +1,4 @@
-# DEL — DOM Event listener
+# DEL — DOM Event Listener
 
 A listener to events for all elements that match the selector, now or in the future.
 
