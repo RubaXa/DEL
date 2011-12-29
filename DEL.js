@@ -239,11 +239,16 @@
 	 * @return  {Boolean}
 	 */
 	function _equal(elm, item) {
-		if( 'id' in item ){
+		if( item.id !== undef ){
 			return  elm.id == item.id;
-		} else if( !('tag' in item) || (elm.tagName == item.tag) ){
-			if( 'mod' in item ){
+		} else if( item.tag === undef || (elm.tagName == item.tag) ){
+			if( item.mod !== undef ){
 				var className = ' '+elm.className+' ', mod = item.mod, i = mod.length;
+
+				if( i === 1 ){
+					return  ~className.indexOf(' '+mod[0]+' ');
+				}
+
 				for( ; i--; ) if( !~className.indexOf(' '+mod[i]+' ') ){
 					return  false;
 				}
