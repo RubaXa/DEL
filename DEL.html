@@ -125,6 +125,8 @@
 			return  false;
 		});
 
+
+		// Right click example
 		DEL.event.add('rightclick', 'mousedown', function (evt){ return (evt.which == 3); });
 		DEL.on('rightclick', '.other', function (evt){
 			$(evt.currentTarget)

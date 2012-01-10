@@ -3,7 +3,6 @@
  * @author  RubaXa  <trash@rubaxa.org>
  *
  *
- * @example
  * DEL.on({
  *    "[mouseover] .my-elm": overFn
  *  , "[mouseup mousedown] .my-elm": function (evt){}
@@ -11,6 +10,7 @@
  * });
  *
  *
+ * DEL.pause('mouseup');
  * DEL.off('.my-elm', overFn);
  *
  * DEL.off({
@@ -173,6 +173,16 @@
 		return  _toStr.call(val) == '[object Boolean]';
 	}
 
+	/**
+	 * Is string
+	 *
+	 * @param str
+	 * @return {Boolean}
+	 */
+	function isStr(str){
+		return  typeof str == 'string';
+	}
+
 
 	/**
 	 * Remove all spaces or trim
@@ -211,11 +221,11 @@
 
 
 	/**
-	 * @param   {Object|Array}    obj
+	 * @param   {Object|Array|HTMLElement}    obj
 	 * @param   {Function}  fn
 	 */
 	function _each(obj, fn){
-		if( typeof obj == 'string' || isNode(obj) ) obj = [obj];
+		if( isStr(obj) || isNode(obj) ) obj = [obj];
 
 		if( 'forEach' in obj ){
 			obj.forEach(fn);
@@ -430,7 +440,7 @@
 			elms    = document.body;
 		}
 
-		if( typeof events == 'string' ){
+		if( isStr(events) ){
 			var tmp = {};
 			tmp['['+ events +'] '+ sel] = fn;
 			events = tmp;
@@ -488,7 +498,7 @@
 			fn      = _fn;
 		}
 
-		if( typeof elms == 'string' ){
+		if( isStr(elms) ){
 			fn      = sel;
 			sel     = type;
 			type    = elms;
