@@ -51,6 +51,19 @@ $(".root").pauseListen({   });
 $(".root").unpauseListen({   });
 ```
 
+### Warning
+`selectors` — does not support html-attributes, olny id, tagName and classNames
+```js
+// Support
+DEL.on('.class1.classN', 'click', fn);
+DEL.on('#id.class1.classN', 'click', fn);
+DEL.on('div.class1.classN', 'click', fn);
+DEL.on('div#id.class1.classN', 'click', fn); // === DEL.on('#id.class1.classN', 'click', fn);
+
+// Not support
+DEL.on('input[type="name"]', 'click', fn);
+```
+
 
 ### Examples
 ```js
@@ -139,5 +152,7 @@ DEL.event.add(
 		return  (event.which == 3);
 	}
 );
-```
 
+// Example: shift+click
+DEL.event.add('shift+click', 'click', function (evt){ return evt.shiftKey; });
+```
