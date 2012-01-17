@@ -29,7 +29,8 @@
  */
 (function (window, $, undef){
 	var
-		  _guid     = 1
+		  _rid      = /#([^\.]+)/i
+		, _guid     = 1
 		, _data     = {}
 		, _proto    = 'prototype'
 
@@ -347,12 +348,13 @@
 			if( oEvt.detail ) evt.delta = -oEvt.detail/3;
 		}
 
-		if( items && items.length ) do {
+		if( items && items.length ) while( target !== elm ){
 			if( target.nodeType == 1 ){
 				for( i = 0, n = items.length; i < n; i++ ){
 					item    = items[i];
 					if( item.on && _equal(target, item) ){
 						special = _event.special[item.type];
+
 						if( special === undef || special(evt, target) ){
 							evt.type = item.type;
 							evt.currentTarget = target;
@@ -372,8 +374,9 @@
 					}
 				}
 			}
+
+			target = target.parentNode;
 		}
-		while( (target = target.parentNode) && elm !== target );
 	}
 
 
@@ -389,8 +392,8 @@
 		sel = _clean(sel);
 		var item = { type: type, fn: fn, sel: sel, on: true };
 
-		if( sel.charAt(0) == '#' ){
-			item.id = sel.substr(1);
+		if( sel.match(_rid) ){
+			item.id = RegExp.$1;
 		} else {
 			sel = sel.split('.');
 
@@ -430,15 +433,28 @@
 	 * @param   {Function}          [fn]
 	 */
 	function listen(elms, events, sel, fn){
+		if( isStr(elms) && !sel ){
+			fn      = events;
+			events  = elms;
+			sel     = '*';
+			elms    = undef;
+		}
+		else if( !isStr(elms) && isStr(events) && !fn ){
+			fn  = sel;
+			sel = '*';
+		}
+
 		if( !events ){
 			events  = elms;
-			elms    = document.body;
+			elms    = undef;
 		} else if( sel && !fn ){
 			fn      = sel;
 			sel     = events;
 			events  = elms;
-			elms    = document.body;
+			elms    = undef;
 		}
+
+		elms    = elms || document.body;
 
 		if( isStr(events) ){
 			var tmp = {};
