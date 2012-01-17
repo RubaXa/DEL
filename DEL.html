@@ -67,7 +67,7 @@
 
 		<a class="abs" href="#test">link</a>
 
-		<div id="root" style="position: absolute; left: 250px; top: 50px;">
+		<div id="root" style="position: absolute; left: 250px; top: 50px; border: 1px dotted green; padding: 50px;">
 			<button class="js-click">click</button>
 			<button class="js-hover">hover</button>
 			<input type="text" />
@@ -79,16 +79,25 @@
 			$(evt.currentTarget).toggleClass('click');
 		}
 
+		var root = document.getElementById('root');
+
+
 
 		/**/
 		DEL.on({
 			  "[mouseup mousedown] .my-elm,.elm": function (evt){ $(evt.currentTarget).toggleClass('press') }
 			, "[hover] .my-elm,.elm,.inner-elm": function (evt){ $(evt.currentTarget).toggleClass('hover'); }
-			, ".other": { "click": function (evt){ $(evt.currentTarget).toggleClass('hover'); }
-			}
+			, ".other": {
+					"click": function (evt){
+						$(evt.currentTarget).toggleClass('hover');
+					}
+				}
 			, "[click] a": function (evt){
 				$(evt.currentTarget).animate({ left: "+=50px" });
 				evt.preventDefault();
+			}
+			, "[click(alt+shift+t)] .elm,.my-elm": function (evt){
+				console.log('alt:', evt.altKey, ', ctrl:', evt.ctrlKey, ', shift:', evt.shiftKey, ', meta:', evt.metaKey);
 			}
 			, "[input] input.js-inp-text": function (evt){
 				var $Inp = $(evt.currentTarget);
@@ -104,7 +113,6 @@
 			}
 		});
 
-		var root = document.getElementById('root');
 		DEL.on(root, 'click', '.js-click', function (){ alert('Yahoo!'); });
 		DEL.on($('#root'), { '[hover] .js-hover': function (evt){
 			$(evt.currentTarget).html(evt.type);
@@ -125,6 +133,9 @@
 			return  false;
 		});
 
+		DEL.on('click', '.my-elm', clickFn);
+		/**/
+
 
 		// Right click example
 		DEL.event.add('rightclick', 'mousedown', function (evt){ return (evt.which == 3); });
@@ -137,9 +148,20 @@
 			;
 			evt.preventDefault();
 		});
+
 		// IE < 8
 		DEL.on('contextmenu', '.other', function (evt){ return false; });
 		/**/
+
+
+
+		// HotKey event
+		DEL.event.add('shift+click', 'click', function (evt){ return evt.shiftKey; });
+		DEL.on('shift+click', '#root', function (evt){ console.log('BODY #root: shift+click'); });
+
+		DEL.on(root, 'shift+click', function (evt){
+			console.log('#root: shift+click', evt.target.tagName);
+		});
 
 
 //		DOMListen.off('click');
@@ -148,7 +170,6 @@
 //		DOMListen.off('click');
 		/**/
 
-		DEL.on('click', '.my-elm', clickFn);
 
 		/**
 		$('body')
