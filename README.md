@@ -53,6 +53,7 @@ $(".root").unpauseListen({   });
 
 ### Warning
 `selectors` — does not support html-attributes, olny id, tagName and classNames
+
 ```js
 // Support
 DEL.on('.class1.classN', 'click', fn);
