@@ -153,9 +153,9 @@ DEL.event.add(
 		return  (event.which == 3);
 	}
 );
-DEL.on('rightclick', function (evt){ });
+DEL.on('rightclick', 'img', function (evt){ });
 
 // Example: shift+click
 DEL.event.add('shift+click', 'click', function (evt){ return evt.shiftKey; });
-DEL.on('shift+click', function (evt){ });
+DEL.on('shift+click', '.js-checkbox', function (evt){ });
 ```
