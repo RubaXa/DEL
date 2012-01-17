@@ -52,7 +52,7 @@ $(".root").unpauseListen({   });
 ```
 
 ### Warning
-`selectors` — does not support html-attributes, olny id, tagName and classNames
+`selectors` — does not support html-attributes, only id, tagName and classNames
 
 ```js
 // Support
