@@ -413,10 +413,17 @@
 	 * @param {Object} data
 	 */
 	function _updListeners(elm, data){
+		var fix;
 		_each(data, function (items, type){
 			if( type != 'fn' ){
-				_eventListener(elm, false, type, data.fn);
-				if( items.length ){
+				fix = '__on'+type;
+				if( data.fn[fix] && !items.length ){
+					data.fn[fix] = 0;
+					_eventListener(elm, false, type, data.fn);
+				}
+
+				if( !data.fn[fix] && items.length ){
+					data.fn[fix] = 1;
 					_eventListener(elm, true, type, data.fn);
 				}
 			}
@@ -562,7 +569,6 @@
 	if( $ ){
 		_event.fix      = function (evt){ return evt; };
 		_event.props    = $.event.props;
-		_event.special  = {};
 
 		$.fn.listen     = function (events, sel, fn){
 			listen(this, events, sel, fn);
