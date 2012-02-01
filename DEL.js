@@ -348,7 +348,7 @@
 			if( oEvt.detail ) evt.delta = -oEvt.detail/3;
 		}
 
-		if( items && items.length ) while( target !== elm ){
+		if( items && items.length ) while( target !== null && target !== elm ){
 			if( target.nodeType == 1 ){
 				for( i = 0, n = items.length; i < n; i++ ){
 					item    = items[i];
