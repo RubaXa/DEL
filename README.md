@@ -6,7 +6,7 @@ A listener to events for all elements that match the selector, now or in the fut
 ## Features
 * easy interface: `on/off` and `pause/unpause`
 * support IE6+, FF, Chrome, Opera
-* small size 2.4KB (minified + gzipped)
+* small size 2.5KB (minified + gzipped)
 * not need jQuery
 
 
