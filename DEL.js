@@ -189,7 +189,7 @@
 	 * Remove all spaces or trim
 	 *
 	 * @param   {String}    str
-	 * @patam   {String}    [mode]
+	 * @param   {String}    [mode]
 	 * @return  {String}
 	 */
 	function _clean(str, mode){
