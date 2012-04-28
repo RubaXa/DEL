@@ -4,10 +4,10 @@ A listener to events for all elements that match the selector, now or in the fut
 
 
 ## Features
-* easy interface: `on/off` and `pause/unpause`
-* support IE6+, FF, Chrome, Opera
-* small size 2.5KB (minified + gzipped)
-* not need jQuery
+* Easy interface: `on/off` and `mute/unmute`
+* Support IE6+, FF, Chrome, Opera
+* Small size 2.5KB (minified + gzipped)
+* No jQuery
 
 
 
@@ -38,17 +38,17 @@ DEL.off(root, eventType, selectors);
 DEL.off(root, eventTypeOrSelectors);
 DEL.off(eventTypeOrSelectors);
 
-// Pause/Unpause listener
+// Pause/Unmute listener
 // @see DEL.off
-DEL.pause(root, eventType, selectors, fn);
-DEL.unpause(root, eventType, selectors, fn);
+DEL.mute(root, eventType, selectors, fn);
+DEL.unmute(root, eventType, selectors, fn);
 
 // or if you use jQuery
 
 $(".root").listen({   });
 $(".root").unlisten({   });
-$(".root").pauseListen({   });
-$(".root").unpauseListen({   });
+$(".root").muteListen({   });
+$(".root").unmuteListen({   });
 ```
 
 ### Warning
