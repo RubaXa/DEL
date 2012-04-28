@@ -1,5 +1,7 @@
-/**
- * DOM Event Listener
+/**!
+ * DEL -- DOM Event Listener
+ * https://github.com/RubaXa/DEL#readme
+ *
  * @author  RubaXa  <trash@rubaxa.org>
  *
  *
@@ -10,7 +12,9 @@
  * });
  *
  *
- * DEL.pause('mouseup');
+ * DEL.mute('mouseup');
+ * DEL.unmute('mouseup')
+ *
  * DEL.off('.my-elm', overFn);
  *
  * DEL.off({
@@ -19,7 +23,16 @@
  * });
  *
  *
- *
+ * $('.menu')
+ * 		.listen()
+ *  	.unlisten()
+ *  	.muteListen()
+ *  	.unmuteListen()
+ * ;
+ */
+
+
+/**
  * @namespace   this.jQuery
  *
  *
@@ -36,7 +49,8 @@
 
 		, _slice    = Array[_proto].slice
 		, _toStr    = Object[_proto].toString
-		, _fbind    = Function[_proto].bind
+		, _bind     = Function[_proto].bind
+
 		, _rtrim    = /(^\s+|\s+$)/g
 		, _rspace   = /\s+/g
 		, _revents  = /^\[([^\]]+)\]\s*/i
@@ -116,8 +130,8 @@
 	function _proxy(ctx, fn){
 		var args = _slice.call(arguments, 2);
 
-		if( _fbind !== undef ){
-			return  _fbind.apply(fn, [ctx].concat(args));
+		if( _bind !== undef ){
+			return  _bind.apply(fn, [ctx].concat(args));
 		}
 
 		var
@@ -511,10 +525,10 @@
 	/**
 	 * Unlisten
 	 */
-	function unlisten(elms, type, sel, fn, pause){
+	function unlisten(elms, type, sel, fn, mute){
 		if( isBool(elms) ){
-			var _fn = pause;
-			pause   = elms;
+			var _fn = mute;
+			mute    = elms;
 			elms    = type;
 			type    = sel;
 			sel     = fn;
@@ -529,8 +543,8 @@
 		}
 
 		if( isFn(sel) || isBool(fn) || sel === undef ){
-			unlisten(elms, type, '', sel, pause);
-			unlisten(elms, '', type, sel, pause);
+			unlisten(elms, type, '', sel, mute);
+			unlisten(elms, '', type, sel, mute);
 			return;
 		}
 
@@ -547,8 +561,8 @@
 										&& (!fn || fn === item.fn)
 										&& (!sel || sel.toLowerCase() == item.sel.toLowerCase());
 								if( remove ){
-									if( pause !== undef ){
-										item.on = !pause;
+									if( mute !== undef ){
+										item.on = !mute;
 									} else {
 										items   = items.slice(0, i).concat(items.slice(i+1));
 									}
@@ -580,12 +594,12 @@
 			return  this;
 		};
 
-		$.fn.pauseListen   = function (events, sel, fn){
+		$.fn.muteListen   = function (events, sel, fn){
 			unlisten(this, events, sel, fn, true);
 			return  this;
 		};
 
-		$.fn.unpauseListen   = function (events, sel, fn){
+		$.fn.unmuteListen   = function (events, sel, fn){
 			unlisten(this, events, sel, fn, false);
 			return  this;
 		};
@@ -596,8 +610,8 @@
 	window.DEL = {
 		  on:       listen
 		, off:      unlisten
-		, pause:    _proxy(noop, unlisten, true)
-		, unpause:  _proxy(noop, unlisten, false)
+		, mute:    _proxy(noop, unlisten, true)
+		, unmute:  _proxy(noop, unlisten, false)
 		, event:    _event
 	};
 })(this, this.jQuery);
