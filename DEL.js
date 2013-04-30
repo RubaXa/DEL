@@ -354,6 +354,7 @@
 			, item
 			, items = data[type]
 			, special
+			, nodeType
 			, oEvt = evt.originalEvent
 		;
 
@@ -363,7 +364,8 @@
 		}
 
 		if( items && items.length ) while( target !== null && target !== elm ){
-			if( target.nodeType == 1 ){
+			nodeType = target.nodeType;
+			if( nodeType == 1 || nodeType == 9 ){
 				for( i = 0, n = items.length; i < n; i++ ){
 					item    = items[i];
 					if( item.on && _equal(target, item) ){
@@ -475,7 +477,7 @@
 			elms    = undef;
 		}
 
-		elms    = elms || document.body;
+		elms    = elms || document;
 
 		if( isStr(events) ){
 			var tmp = {};
@@ -539,7 +541,7 @@
 			fn      = sel;
 			sel     = type;
 			type    = elms;
-			elms    = document.body;
+			elms    = document;
 		}
 
 		if( isFn(sel) || isBool(fn) || sel === undef ){
